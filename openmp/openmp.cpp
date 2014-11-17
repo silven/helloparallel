@@ -20,7 +20,6 @@ int main(void) {
         }
 
 		auto start = std::chrono::high_resolution_clock::now();
-		#pragma omp parallel for
         for(uint32_t i = 0; i < N; ++i)
             for(uint32_t j(0); j < N; ++j) {
                 C[i*N + j] = 0;

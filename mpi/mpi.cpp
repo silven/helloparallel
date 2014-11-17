@@ -33,9 +33,6 @@ int main(int argc, char** argv) {
         const uint32_t CHUNK = N / world_size;
         const uint32_t PER = N * CHUNK;
 
-        MPI_Scatter(A, PER, MPI_UNSIGNED, (rank ? A : MPI_IN_PLACE), PER, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
-        MPI_Bcast(B, N*N, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
-
 		auto start = std::chrono::high_resolution_clock::now();
         for(uint32_t i(0); i < CHUNK; ++i)
             for(uint32_t j(0); j < N; ++j) {
@@ -45,7 +42,6 @@ int main(int argc, char** argv) {
                 }
             }
 
-		MPI_Gather((rank ? C : MPI_IN_PLACE), PER, MPI_UNSIGNED, C, PER, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 		auto end = std::chrono::high_resolution_clock::now();
 		
 		auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
